@@ -1,0 +1,24 @@
+version: 0.1
+
+phases:
+  install:
+    commands:
+      - curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+      - sudo apt-get install -y nodejs
+      - aws s3 rm --recursive "s3://gradeapp/" 
+  pre_build:
+    commands:
+      - echo installing dependencies...
+      - npm i -g @angular/cli
+      - npm install
+  build:
+    commands:
+      # - echo testing...
+      # - echo building...
+      - ls -a
+      - ng build 
+artifacts:
+  files:
+    - "**/*"
+  discard-paths: no
+  base-directory: dist/gradeapp
