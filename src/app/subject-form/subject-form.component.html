@@ -1,0 +1,18 @@
+<form [formGroup]="subjectForm" normal-form (ngSubmit)="onSubmit()">
+
+    <mat-form-field appearance="fill">
+        <mat-label>Id</mat-label>
+        <input formControlName="id" matInput>
+    </mat-form-field>
+    <br>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Nume</mat-label>
+        <input formControlName="name" matInput>
+    </mat-form-field>
+    <br>
+
+    <button mat-raised-button>
+        <mat-icon>add</mat-icon>
+    </button>
+</form>

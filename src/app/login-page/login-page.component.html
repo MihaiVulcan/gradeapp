@@ -1,0 +1,35 @@
+<div>
+    <h1>Welcome to Gradi</h1>
+
+    <form [formGroup]="loginForm" normal-form (ngSubmit)="onSignIn()">
+
+        
+            <label for="email"><b>Username or Email</b></label>
+            <input name="email" [(ngModel)]="username" username="ngModel" type="email" placeholder="Enter Username" formControlName="username" required  >
+            <br>
+
+            <label for="password"><b>Password</b></label>
+            <input name="password" [(ngModel)]="password" password="ngModel" type="password"  placeholder="Enter Password" formControlName="password" required >
+            <br>
+
+            <button mat-raised-button  [disabled]="!loginForm.valid">Login</button>
+
+        
+    </form>
+
+    <form *ngIf="newPasswordRequired==true" [formGroup]="newPasswordForm" normal-form (ngSubmit)="setNewPassword()">
+
+        
+        <label for="email"><b>New Password</b></label>
+        <input name="email" [(ngModel)]="newPassword" newPassword="ngModel" type="password" placeholder="Enter New Password" formControlName="newPassword" required  >
+        <br>
+
+        <label for="password"><b>Confirm Password</b></label>
+        <input name="password" [(ngModel)]="newPasswordConfirm" newPasswordConfirm="ngModel" type="password"  placeholder="Confirm New Password" formControlName="newPasswordConfirm" required >
+        <br>
+
+        <button mat-raised-button  [disabled]="!newPasswordForm.valid">Save new Password</button>
+
+    </form>
+
+</div>

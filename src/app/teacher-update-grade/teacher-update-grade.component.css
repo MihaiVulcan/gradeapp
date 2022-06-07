@@ -1,0 +1,30 @@
+button{
+    width: fit-content;
+}
+
+div{
+    width: fit-content;
+}
+
+mat-list{
+    display: flex;
+    flex-direction: column;
+}
+
+mat-list-item{
+    display: initial;
+}
+
+input, textarea{
+    border-color: black;
+    border-style: solid;
+    border-width: 0.5px;
+    width: fit-content;
+    padding: 5px;
+    margin-left:10px;
+}
+
+label{
+    margin-left:10px;
+
+}

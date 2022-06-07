@@ -1,0 +1,23 @@
+.subjects-card{
+    width: fit-content;
+}
+
+.inlineStyle{
+    display: inline-flex;
+}
+
+.grades-card{
+    width: fit-content;
+}
+
+.mat-row {
+    height: auto;
+}
+  
+.mat-cell {
+    padding: 20px 60px 20px 0;
+}
+
+.labelFeedback{
+    white-space: pre-wrap;
+}

@@ -1,0 +1,10 @@
+<mat-list>
+    <div mat-subheader>Note {{subject.name}}</div>
+    <mat-list-item *ngFor="let grade of grades">
+        <input matInput [(ngModel)]="grade.name">
+        <input matInput [(ngModel)]="grade.procent">
+        <button mat-flat-button (click)="delete(grade.id)"> <mat-icon>delete</mat-icon> </button>
+    </mat-list-item>
+    <button mat-flat-button (click)="newGrade()" class="btNew" > <mat-icon>add</mat-icon>Nota noua </button><br>
+    <button mat-rasied-button (click)="update()" ><mat-icon>save</mat-icon>Salveaza</button>
+</mat-list>

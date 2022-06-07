@@ -1,0 +1,21 @@
+mat-table{
+    width: 100%;
+    border: 30px 10px 30px 10px;
+}
+.mat-table {
+    overflow: auto;
+    max-height: 500px;
+  }
+  
+
+button{
+    border: 30px 10px 30px 10px;
+}
+
+.mat-row {
+    height: auto;
+  }
+  
+.mat-cell {
+    padding: 10px 30px 10px 0;
+}

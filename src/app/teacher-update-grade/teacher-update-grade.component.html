@@ -1,0 +1,28 @@
+<div>
+    <mat-list>
+        <div mat-subheader>Note Student {{studentGrades.firstName}} {{studentGrades.lastName}} grupa {{studentGrades.group}}</div>
+        <mat-list-item *ngFor="let grade of displayGrades">
+            <div class="divGrade">
+                <label >{{grade.name}}</label>
+                <input matInput [(ngModel)]="grade.grade">
+                <button mat-raised-button *ngIf="grade.feedback == '' && grade.showFeedback == false" (click)="grade.showFeedback = true">Add feedback</button>
+                <button mat-raised-button *ngIf="grade.feedback != '' && grade.showFeedback == false" (click)="grade.showFeedback = true">View feedback</button>
+                <button mat-raised-button *ngIf="grade.showFeedback" (click)="grade.showFeedback = false">Close feedback</button>
+            </div>
+            <div class="divFeedback" *ngIf="grade.showFeedback">
+                <label *ngIf="grade.showFeedback">Feedback</label>
+                <textarea *ngIf="grade.showFeedback" matInput
+                    cdkTextareaAutosize
+                    #autosize="cdkTextareaAutosize"
+                    cdkAutosizeMinRows="1"
+                    cdkAutosizeMaxRows="5"
+                    [(ngModel)]="grade.feedback"
+                    >
+                </textarea>
+            </div>
+        </mat-list-item>
+    <button mat-rasied-button (click)="save()" ><mat-icon>save</mat-icon>Salveaza</button>
+    </mat-list>
+</div>
+
+

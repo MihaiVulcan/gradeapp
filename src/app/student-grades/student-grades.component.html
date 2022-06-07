@@ -1,0 +1,56 @@
+
+<div class="inlineStyle">
+    <mat-card class="subjects-card">
+        <mat-list>
+            <div mat-subheader>Materii</div>
+            <mat-list-item *ngFor="let subject of subjectsStudent">
+                <mat-label (click)="openGrades(subject)" >{{subject.subjectId}}  {{subject.name}} Credits: {{subject.credits}}  </mat-label>
+            </mat-list-item>
+        </mat-list>
+    </mat-card>
+
+    
+    <mat-card *ngIf="selectedSubject.subjectId != ''" class="grades-card">
+        <mat-table [dataSource]="selectedSubject.grades" class="mat-elevation-z8">
+
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef> Nume </th>
+                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+            </ng-container>
+        
+            <ng-container matColumnDef="procent">
+                <th mat-header-cell *matHeaderCellDef> Procent </th>
+                <td mat-cell *matCellDef="let element"> {{element.procent}} </td>
+            </ng-container>
+        
+            <ng-container matColumnDef="grade">
+                <th mat-header-cell *matHeaderCellDef> Nota </th>
+                <td mat-cell *matCellDef="let element"> 
+                    <span *ngIf="element.grade>0">{{element.grade}} </span>
+                    <input matInput *ngIf="element.grade==0" [(ngModel)]="element.mockGrade" (ngModelChange)="calculateFinalGrade()">
+                
+                </td>
+            </ng-container>
+
+            <ng-container  matColumnDef="feedback">
+                <th mat-header-cell *matHeaderCellDef> Feedback </th>
+                <td mat-cell *matCellDef="let element"> 
+                    <button mat-raised-button *ngIf="element.feedback!=''" (click)="openFeedback(element)" > View </button> 
+                </td>
+            </ng-container>
+        
+        
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </mat-table>
+
+        <span>Final Grade: {{finalGrade}}</span>
+
+    </mat-card>
+
+
+    <mat-card *ngIf="selectedGrade.id!=-1">
+        <span>  </span>
+        <span class="labelFeedback">{{selectedGrade.feedback}}</span>
+    </mat-card>
+</div>

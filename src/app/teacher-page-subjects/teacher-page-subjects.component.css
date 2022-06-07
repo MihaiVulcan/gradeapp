@@ -1,0 +1,17 @@
+.subjects-card{
+    width: fit-content;
+    min-width: fit-content;
+}
+
+.grades-card{
+    width: 100%;
+}
+
+mat-table{
+    border-spacing: 100px 0;
+
+}
+
+.inlineStyle{
+    display: inline-flex;
+}
