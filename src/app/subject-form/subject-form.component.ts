@@ -1,6 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Form, FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { CognitoUserSession } from 'amazon-cognito-identity-js';
+import { AuthService } from '../auth/auth.service';
 import { Subject } from '../subjects-page/subjects-page.component';
 
 @Component({
@@ -16,7 +18,10 @@ export class SubjectFormComponent implements OnInit {
 
   constructor(
     private httpClient: HttpClient,
-    private fb: FormBuilder) { }
+    private fb: FormBuilder,
+    private auth: AuthService
+    
+    ) { }
 
   ngOnInit(): void {
     this.subjectForm = this.fb.group({
@@ -27,11 +32,27 @@ export class SubjectFormComponent implements OnInit {
   }
 
   onSubmit(): void{
-    console.log(this.subjectForm)
-    var subject: Subject = new Subject(this.subjectForm.controls['id'].value, this.subjectForm.controls['name'].value)
-    this.httpClient.post('https://tuhd7q6w3a.execute-api.eu-central-1.amazonaws.com/dev/subject/', subject).subscribe(data => {
-        console.log(data)
-    })
+    var user = this.auth.getUser()
+    if(user != null){
+      user.getSession((err: any, session: CognitoUserSession) => {
+        if(err)
+          return;
+        console.log(session)
+
+        console.log(this.subjectForm)
+        var subject: Subject = new Subject(this.subjectForm.controls['id'].value, this.subjectForm.controls['name'].value)
+        this.httpClient.post('https://tuhd7q6w3a.execute-api.eu-central-1.amazonaws.com/dev/subject/',
+        subject,
+        {
+          headers: new HttpHeaders({
+            'Authorization': session.getIdToken().getJwtToken(),
+          })
+        }
+        ).subscribe(data => {
+            console.log(data)
+        })
+      })
+    }
   }
 
 }

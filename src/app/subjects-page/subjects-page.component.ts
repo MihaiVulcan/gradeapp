@@ -1,8 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { CognitoUserSession } from 'amazon-cognito-identity-js';
+import { AuthService } from '../auth/auth.service';
 import { SubjectFormComponent } from '../subject-form/subject-form.component';
 import { SubjectStudentComponent } from '../subject-student/subject-student.component';
 import { SubjectTeacherComponent } from '../subject-teacher/subject-teacher.component';
@@ -28,7 +30,8 @@ export class SubjectsPageComponent implements OnInit {
   displayedColumns: String[] = ['id', 'name', 'actions']
   constructor(
     private httpClient: HttpClient,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private auth: AuthService
   ) { }
 
   @ViewChild(MatPaginator)paginator!: MatPaginator;
@@ -43,24 +46,54 @@ export class SubjectsPageComponent implements OnInit {
   }
 
   getSubjects(){
-    this.httpClient.get<any>( 'https://tuhd7q6w3a.execute-api.eu-central-1.amazonaws.com/dev/subject/?id=all').subscribe(
-      response => {
-        console.log(response)
-        this.subjects = response.body
-        this.dataSource.data = this.subjects
-        console.log(this.dataSource)
-        console.log(this.subjects)
+    var user = this.auth.getUser()
+    if(user != null){
+      user.getSession((err: any, session: CognitoUserSession) => {
+        if(err)
+          return;
+        console.log(session)
+
+      this.httpClient.get<any>( 'https://tuhd7q6w3a.execute-api.eu-central-1.amazonaws.com/dev/subject/?id=all',
+      {
+        headers: new HttpHeaders({
+          'Authorization': session.getIdToken().getJwtToken(),
+        })
       }
-    )
+      ).subscribe(
+        response => {
+          console.log(response)
+          this.subjects = response.body
+          this.dataSource.data = this.subjects
+          console.log(this.dataSource)
+          console.log(this.subjects)
+        }
+      )
+      })
+    }
   }
 
   deleteSubject(id: string){
-    console.log(id);
-    this.httpClient.delete<any>( 'https://tuhd7q6w3a.execute-api.eu-central-1.amazonaws.com/dev/subject/?id='+id).subscribe(
-      response => {
-        console.log(response)
+    var user = this.auth.getUser()
+    if(user != null){
+      user.getSession((err: any, session: CognitoUserSession) => {
+        if(err)
+          return;
+        console.log(session)
+
+      console.log(id);
+      this.httpClient.delete<any>( 'https://tuhd7q6w3a.execute-api.eu-central-1.amazonaws.com/dev/subject/?id='+id,
+      {
+        headers: new HttpHeaders({
+          'Authorization': session.getIdToken().getJwtToken(),
+        })
+      }
+      ).subscribe(
+        response => {
+          console.log(response)
+        })
+      this.getSubjects()
       })
-    this.getSubjects()
+    }
   }
 
   onNewSubject(){

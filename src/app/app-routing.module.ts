@@ -9,21 +9,43 @@ import { TeacherPageComponent } from './teacher-page/teacher-page.component';
 import { TeacherPageSubjectsComponent } from './teacher-page-subjects/teacher-page-subjects.component';
 import { StudentPageComponent } from './student-page/student-page.component';
 import { StudentGradesComponent } from './student-grades/student-grades.component';
+import { AuthGuardGuard } from './auth/auth-guard.guard';
 
 const routes: Routes = [
   {path: '', redirectTo : '/login', pathMatch: 'full'},
   {path: 'login', component:LoginPageComponent},
-  {path : 'admin-page', component: AdminPageComponent, children: [
-    {path : 'students-page', component: StudentsPageComponent},
-    {path : 'teachers-page', component: TeachersPageComponent},
-    {path : 'subjects-page', component: SubjectsPageComponent}
+  { 
+    path : 'admin-page', 
+    component: AdminPageComponent,
+    canActivate: [AuthGuardGuard],
+    data:{
+      group:'admin'
+    },
+    children: [
+      {path : 'students-page', component: StudentsPageComponent},
+      {path : 'teachers-page', component: TeachersPageComponent},
+      {path : 'subjects-page', component: SubjectsPageComponent}
     ]
   },
-  {path: 'teacher-page', component: TeacherPageComponent, children: [
-    {path: 'subjects', component: TeacherPageSubjectsComponent}
+  {
+    path: 'teacher-page', 
+    component: TeacherPageComponent,
+    canActivate: [AuthGuardGuard],
+    data:{
+      group:'teacher'
+    }, 
+    children: [
+      {path: 'subjects', component: TeacherPageSubjectsComponent}
   ]},
-  {path: 'student-page', component: StudentPageComponent, children: [
-    {path: 'grades', component: StudentGradesComponent}
+  {
+    path: 'student-page', 
+    component: StudentPageComponent, 
+    canActivate: [AuthGuardGuard],
+    data:{
+      group:'student'
+    },
+    children: [
+      {path: 'grades', component: StudentGradesComponent}
   ]}
 ];
 

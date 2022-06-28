@@ -22,13 +22,25 @@ export class StudentFormComponent implements OnInit {
     this.studentsForm = this.fb.group({
       id:'',
       lastName:'',
-      firstName:''
+      firstName:'',
+      codeAcademic: '',
+      email: '',
+      group: '',
+      year: 0,
     });
   }
 
   onSubmit(): void{
     console.log(this.studentsForm)
-    var student: Student = new Student(this.studentsForm.controls['id'].value, this.studentsForm.controls['firstName'].value, this.studentsForm.controls['lastName'].value)
+    var student: Student = new Student(
+      this.studentsForm.controls['id'].value, 
+      this.studentsForm.controls['firstName'].value, 
+      this.studentsForm.controls['lastName'].value,
+      this.studentsForm.controls['group'].value,
+      this.studentsForm.controls['year'].value,
+      this.studentsForm.controls['codeAcademic'].value,
+      this.studentsForm.controls['email'].value
+      )
     this.httpClient.post('https://tuhd7q6w3a.execute-api.eu-central-1.amazonaws.com/dev/student/', student).subscribe(data => {
         console.log(data)
     })

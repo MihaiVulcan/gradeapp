@@ -67,13 +67,17 @@ export class TeacherUpdateGradeComponent implements OnInit {
 
 
       console.log(this.displayGrades)
-      this.httpClient.post<any>( 'https://tuhd7q6w3a.execute-api.eu-central-1.amazonaws.com/dev/teacher-grades/', {
-        "subjectId":this.data["subject"]["subjectId"],
-        "studentId":this.studentGrades.studentId,
-        "grades":this.displayGrades,
-        headers: new HttpHeaders({
-          'Authorization': session.getIdToken().getJwtToken(),
-        })
+      this.httpClient.post<any>( 'https://tuhd7q6w3a.execute-api.eu-central-1.amazonaws.com/dev/teacher-grades/',
+        {
+          "subjectId":this.data["subject"]["subjectId"],
+          "studentId":this.studentGrades.studentId,
+          "grades":this.displayGrades
+        },
+        {
+          headers: new HttpHeaders({
+            'Authorization': session.getIdToken().getJwtToken(),
+          }
+        )
       }).subscribe(
         response => {
           

@@ -48,10 +48,13 @@ export class TeacherSubjectsUpdateComponent implements OnInit {
       this.httpClient.post<any>( 'https://tuhd7q6w3a.execute-api.eu-central-1.amazonaws.com/dev/teacher-subjects/', {
         "subjectId":this.subject.subjectId,
         "grades":this.grades,
+      },
+      {
         headers: new HttpHeaders({
           'Authorization': session.getIdToken().getJwtToken(),
-        })
-      }).subscribe(
+        }
+      )
+    }).subscribe(
         response => {
           
         })
