@@ -1,14 +1,29 @@
+
+<h1>Adaugare materie noua</h1>
+
 <form [formGroup]="subjectForm" normal-form (ngSubmit)="onSubmit()">
 
     <mat-form-field appearance="fill">
         <mat-label>Id</mat-label>
-        <input id="id" formControlName="id" matInput>
+        <input id="id" formControlName="id" required matInput>
     </mat-form-field>
     <br>
 
     <mat-form-field appearance="fill">
         <mat-label>Nume</mat-label>
-        <input id="name" formControlName="name" matInput>
+        <input id="name" formControlName="name" required matInput>
+    </mat-form-field>
+    <br>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Credite</mat-label>
+        <input id="credits" formControlName="credits" required type="number" min="1" matInput>
+    </mat-form-field>
+    <br>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Semestru</mat-label>
+        <input id="semester" formControlName="semester" required type="number" min="1" matInput>
     </mat-form-field>
     <br>
 

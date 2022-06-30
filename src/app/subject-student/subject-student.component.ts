@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -7,6 +7,8 @@ import { StudentFormComponent } from '../student-form/student-form.component';
 import { Student } from '../students-page/students-page.component';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { Inject } from '@angular/core';
+import { AuthService } from '../auth/auth.service';
+import { CognitoUserSession } from 'amazon-cognito-identity-js';
 
 
 export class SubjectStudent {
@@ -35,7 +37,8 @@ export class SubjectStudentComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private httpClient: HttpClient,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private auth: AuthService,
   ) { }
 
   @ViewChild(MatPaginator)paginator!: MatPaginator;
@@ -49,49 +52,100 @@ export class SubjectStudentComponent implements OnInit {
   }
 
   getStudents(){
-    this.httpClient.get<any>( 'https://tuhd7q6w3a.execute-api.eu-central-1.amazonaws.com/dev/subject/'+this.data['id']+'/student/').subscribe(
-      response => {
-        console.log(response)
-        this.students = response.body
-        this.dataSourceExsist.data = this.students
-        console.log(this.dataSource)
-        console.log(this.students)
-        this.httpClient.get<any>( 'https://tuhd7q6w3a.execute-api.eu-central-1.amazonaws.com/dev/student/?id=all').subscribe(
+    var user = this.auth.getUser()
+    if(user != null){
+      user.getSession((err: any, session: CognitoUserSession) => {
+        if(err)
+          return;
+        console.log(session)
+        this.httpClient.get<any>( 'https://tuhd7q6w3a.execute-api.eu-central-1.amazonaws.com/dev/subject/'+this.data['id']+'/student/',{
+          headers: new HttpHeaders({
+            'Authorization': session.getIdToken().getJwtToken(),
+            'AccessToken': session.getAccessToken().getJwtToken()
+          })
+          }
+          ).subscribe(
           response => {
             console.log(response)
-            this.auxStudents = response.body;
-            console.log(this.auxStudents)
-            this.allStudents = this.auxStudents.filter((objFromAux) => {
-              return !this.students.find(function(objFromExist) {
-                return objFromAux.id === objFromExist.studentId
+            this.students = response.body
+            this.dataSourceExsist.data = this.students
+            console.log(this.dataSource)
+            console.log(this.students)
+            this.httpClient.get<any>( 'https://tuhd7q6w3a.execute-api.eu-central-1.amazonaws.com/dev/student/?id=all',{
+              headers: new HttpHeaders({
+                'Authorization': session.getIdToken().getJwtToken(),
+                'AccessToken': session.getAccessToken().getJwtToken()
               })
-            })
-            
-            this.dataSource.data = this.allStudents
+            }).subscribe(
+              response => {
+                console.log(response)
+                this.auxStudents = response.body;
+                console.log(this.auxStudents)
+                this.allStudents = this.auxStudents.filter((objFromAux) => {
+                  return !this.students.find(function(objFromExist) {
+                    return objFromAux.id === objFromExist.studentId
+                  })
+                })
+                
+                this.dataSource.data = this.allStudents
+              }
+            )
           }
         )
       }
     )
   }
+}
 
   deleteStudent(id: string){
     console.log(id);
-    this.httpClient.delete<any>( 'https://tuhd7q6w3a.execute-api.eu-central-1.amazonaws.com/dev/subject/'+this.data['id']+'/student/?id='+id).subscribe(
-      response => {
-        console.log(response)
-        this.getStudents()
-      })
-    
+    var user = this.auth.getUser()
+    if(user != null){
+      user.getSession((err: any, session: CognitoUserSession) => {
+        if(err)
+          return;
+        console.log(session)
+        this.httpClient.delete<any>( 'https://tuhd7q6w3a.execute-api.eu-central-1.amazonaws.com/dev/subject/'+this.data['id']+'/student/?id='+id,
+        {
+          headers: new HttpHeaders({
+            'Authorization': session.getIdToken().getJwtToken(),
+            'AccessToken': session.getAccessToken().getJwtToken()
+          })
+        }
+        ).subscribe(
+          response => {
+            console.log(response)
+            this.getStudents()
+          })
+        }
+      )
+    }
   }
 
   addStudent(id: string){
     var info : SubjectStudent = new SubjectStudent(this.data['id'], id)
-    this.httpClient.post<any>( 'https://tuhd7q6w3a.execute-api.eu-central-1.amazonaws.com/dev/subject/'+this.data['id']+'/student', info).subscribe(
-      response => {
-        console.log(response)
-        this.getStudents()
-      })
-      
+    var user = this.auth.getUser()
+    if(user != null){
+      user.getSession((err: any, session: CognitoUserSession) => {
+        if(err)
+          return;
+        console.log(session)
+        this.httpClient.post<any>( 'https://tuhd7q6w3a.execute-api.eu-central-1.amazonaws.com/dev/subject/'+this.data['id']+'/student',
+         info,
+          {
+              headers: new HttpHeaders({
+                'Authorization': session.getIdToken().getJwtToken(),
+                'AccessToken': session.getAccessToken().getJwtToken()
+              })
+          }
+         ).subscribe(
+          response => {
+            console.log(response)
+            this.getStudents()
+          })
+        }
+      )
+    }
   }
 
 }

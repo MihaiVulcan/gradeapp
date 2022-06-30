@@ -1,20 +1,28 @@
+<h1>Adaugare Profesor Nou</h1>
+
 <form [formGroup]="teachersForm" normal-form (ngSubmit)="onSubmit()">
 
     <mat-form-field appearance="fill">
         <mat-label>Username</mat-label>
-        <input formControlName="id" matInput>
+        <input formControlName="id" required matInput>
     </mat-form-field>
     <br>
 
     <mat-form-field appearance="fill">
         <mat-label>Nume</mat-label>
-        <input formControlName="lastName" matInput>
+        <input formControlName="lastName" required matInput>
     </mat-form-field>
     <br>
 
     <mat-form-field appearance="fill">
         <mat-label>Prenume</mat-label>
-        <input formControlName="firstName" matInput>
+        <input formControlName="firstName" required matInput>
+    </mat-form-field>
+    <br>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input formControlName="firstName" type="email" required matInput>
     </mat-form-field>
     <br>
 

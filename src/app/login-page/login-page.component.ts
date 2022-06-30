@@ -6,6 +6,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationDetails, CognitoUser, CognitoUserPool } from 'amazon-cognito-identity-js';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../auth/auth.service';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from "@angular/material/form-field";
 
 
 @Component({
@@ -60,13 +62,13 @@ export class LoginPageComponent implements OnInit {
   loadUserInterface() {
     var group = this.authService.getGroup()
     if(group=="admin"){
-      this.router.navigateByUrl('/admin-page')
+      this.router.navigateByUrl('/admin-page/home')
     }
     else if(group=="student"){
-      this.router.navigateByUrl('/student-page')
+      this.router.navigateByUrl('/student-page/home')
     }
     else if(group=="teacher"){
-      this.router.navigateByUrl('/teacher-page')
+      this.router.navigateByUrl('/teacher-page/home')
     }else{
       alert("User is not part of any group")
     }

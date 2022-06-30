@@ -21,3 +21,23 @@
 .labelFeedback{
     white-space: pre-wrap;
 }
+
+.selected{
+    color: blue;
+}
+
+mat-list-item:hover{
+    color: blue;
+}
+
+.finalGrade{
+    font-size: large;
+    color: blue;
+}
+
+.notGraded{
+    border: 1px solid #0000ff;
+    border-radius: 5px;
+    width: 50%;
+    padding: 0 5px;
+}

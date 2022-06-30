@@ -26,8 +26,9 @@ export class SubjectFormComponent implements OnInit {
   ngOnInit(): void {
     this.subjectForm = this.fb.group({
       id:'',
-      lastName:'',
-      firstName:''
+      name:'',
+      credits:0,
+      semester:0
     });
   }
 
@@ -40,12 +41,13 @@ export class SubjectFormComponent implements OnInit {
         console.log(session)
 
         console.log(this.subjectForm)
-        var subject: Subject = new Subject(this.subjectForm.controls['id'].value, this.subjectForm.controls['name'].value)
+        var subject: Subject = new Subject(this.subjectForm.controls['id'].value, this.subjectForm.controls['name'].value, this.subjectForm.controls['semester'].value, this.subjectForm.controls['credits'].value)
         this.httpClient.post('https://tuhd7q6w3a.execute-api.eu-central-1.amazonaws.com/dev/subject/',
         subject,
         {
           headers: new HttpHeaders({
             'Authorization': session.getIdToken().getJwtToken(),
+            'AccessToken': session.getAccessToken().getJwtToken()
           })
         }
         ).subscribe(data => {

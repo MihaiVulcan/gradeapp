@@ -1,0 +1,33 @@
+
+<h1>Modificare materie </h1>
+
+<form [formGroup]="subjectForm" normal-form (ngSubmit)="onSubmit()">
+
+    <mat-form-field appearance="fill">
+        <mat-label>Id</mat-label>
+        <input id="id" formControlName="id" readonly matInput>
+    </mat-form-field>
+    <br>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Nume</mat-label>
+        <input id="name" formControlName="name" required matInput>
+    </mat-form-field>
+    <br>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Credite</mat-label>
+        <input id="credits" formControlName="credits" required type="number" min="1" matInput>
+    </mat-form-field>
+    <br>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Semestru</mat-label>
+        <input id="semester" formControlName="semester" required type="number" min="1" matInput>
+    </mat-form-field>
+    <br>
+
+    <button id="new-subject-page" mat-raised-button>
+        <mat-icon>save</mat-icon>
+    </button>
+</form>

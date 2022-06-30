@@ -6,6 +6,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SubjectGrade, Subject } from '../teacher-page-subjects/teacher-page-subjects.component';
 import { AuthService } from '../auth/auth.service';
 import { CognitoUserSession } from 'amazon-cognito-identity-js';
+import { ConditionalExpr } from '@angular/compiler';
 
 @Component({
   selector: 'app-teacher-subjects-update',
@@ -38,29 +39,44 @@ export class TeacherSubjectsUpdateComponent implements OnInit {
 
     console.log(this.grades)
 
-    var user = this.auth.getUser()
-    if(user != null){
-      user.getSession((err: any, session: CognitoUserSession) => {
-        if(err)
-          return;
-        console.log(session)
+    var sum : number = 0;
+    this.grades.forEach(function (grade){
+      console.log(grade['procent'])
+      var number = +grade['procent']
+      sum=sum+number
+      console.log(sum)
+    })
+    console.log(sum)
+    if(sum != 100){
+      alert("Suma prcentelor notelor trebuie sa fie 100")
+    }
+    else{
+      var user = this.auth.getUser()
+      if(user != null){
+        user.getSession((err: any, session: CognitoUserSession) => {
+          if(err)
+            return;
+          console.log(session)
 
-      this.httpClient.post<any>( 'https://tuhd7q6w3a.execute-api.eu-central-1.amazonaws.com/dev/teacher-subjects/', {
-        "subjectId":this.subject.subjectId,
-        "grades":this.grades,
-      },
-      {
-        headers: new HttpHeaders({
-          'Authorization': session.getIdToken().getJwtToken(),
-        }
-      )
-    }).subscribe(
-        response => {
-          
+        this.httpClient.post<any>( 'https://tuhd7q6w3a.execute-api.eu-central-1.amazonaws.com/dev/teacher-subjects/', {
+          "subjectId":this.subject.subjectId,
+          "grades":this.grades,
+        },
+        {
+          headers: new HttpHeaders({
+            'Authorization': session.getIdToken().getJwtToken(),
+            'AccessToken': session.getAccessToken().getJwtToken()
+          }
+        )
+      }).subscribe(
+          response => {
+            
+          })
         })
-      })
+      }
     }
   }
+   
 
   newGrade(){
     this.grades.push(new SubjectGrade(this.sequence,"", 0))

@@ -8,15 +8,17 @@ import { AuthService } from '../auth/auth.service';
 import { SubjectFormComponent } from '../subject-form/subject-form.component';
 import { SubjectStudentComponent } from '../subject-student/subject-student.component';
 import { SubjectTeacherComponent } from '../subject-teacher/subject-teacher.component';
+import { SubjectUpdateComponent } from '../subject-update/subject-update.component';
 
 export class Subject {
   constructor(
     public id: string,
     public name: string,
+    public semester: number,
+    public credits: number
   ){
   }
 }
-
 
 @Component({
   selector: 'app-subjects-page',
@@ -27,7 +29,8 @@ export class SubjectsPageComponent implements OnInit {
 
   subjects: Subject[] = [];
   dataSource = new MatTableDataSource<Subject>(this.subjects);
-  displayedColumns: String[] = ['id', 'name', 'actions']
+  displayedColumns: String[] = ['id', 'name', 'semester', 'credits', 'addteacher', 'addstudent','actions']
+  filter = ''
   constructor(
     private httpClient: HttpClient,
     private dialog: MatDialog,
@@ -45,6 +48,13 @@ export class SubjectsPageComponent implements OnInit {
     this.dataSource.paginator=this.paginator
   }
 
+  applyFilter(filterValue: string) {
+    if(filterValue!=""){
+      filterValue = filterValue.trim(); // Remove whitespace
+      this.dataSource.filter = filterValue;
+    }
+  }
+
   getSubjects(){
     var user = this.auth.getUser()
     if(user != null){
@@ -57,6 +67,7 @@ export class SubjectsPageComponent implements OnInit {
       {
         headers: new HttpHeaders({
           'Authorization': session.getIdToken().getJwtToken(),
+          'AccessToken': session.getAccessToken().getJwtToken()
         })
       }
       ).subscribe(
@@ -85,6 +96,7 @@ export class SubjectsPageComponent implements OnInit {
       {
         headers: new HttpHeaders({
           'Authorization': session.getIdToken().getJwtToken(),
+          'AccessToken': session.getAccessToken().getJwtToken()
         })
       }
       ).subscribe(
@@ -98,6 +110,19 @@ export class SubjectsPageComponent implements OnInit {
 
   onNewSubject(){
     const dialogRef = this.dialog.open(SubjectFormComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      this.getSubjects();
+    });
+  }
+
+  editSubject(subject: Subject){
+    const dialogRef = this.dialog.open(SubjectUpdateComponent,{
+      "data":{
+        "subject":subject
+      }
+    });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');

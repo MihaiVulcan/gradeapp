@@ -3,11 +3,12 @@ form{
     width: fit-content;
     height: fit-content;
     margin: auto;
-    
 }
 
 h1{
     text-align: center;
+    font: 7 bold;
+    color: blue;
 }
 
 div{
@@ -17,7 +18,22 @@ div{
     padding-top: 200px;
 }
 
+button{
+    font-size: medium;
+    color: blue;
+}
+
 input{
     margin: 10px 10px 10px 10px;
     padding: 10px 10px 10px 10px;
 }
+
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .example-full-width {
+    width: 100%;
+  }

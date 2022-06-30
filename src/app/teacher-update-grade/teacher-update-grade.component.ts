@@ -76,6 +76,7 @@ export class TeacherUpdateGradeComponent implements OnInit {
         {
           headers: new HttpHeaders({
             'Authorization': session.getIdToken().getJwtToken(),
+            'AccessToken': session.getAccessToken().getJwtToken()
           }
         )
       }).subscribe(

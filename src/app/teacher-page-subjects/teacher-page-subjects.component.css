@@ -12,6 +12,32 @@ mat-table{
 
 }
 
+.mat-table {
+    overflow: auto;
+    max-height: 500px;
+    width: 100%;
+    justify-content: center;
+  }
+  
+  mat-form-field{
+    padding-left: 30px;
+  }
+  
+  tr.mat-row:hover {
+    border: 1px solid blue;
+    border-radius: 10px;
+  }
+  
+
 .inlineStyle{
     display: inline-flex;
+    width: 100%;
+}
+
+.selected{
+    color:blue;
+}
+
+mat-list-item:hover{
+    color: blue;
 }

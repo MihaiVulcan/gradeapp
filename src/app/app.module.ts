@@ -37,6 +37,12 @@ import { StudentPageComponent } from './student-page/student-page.component';
 import { TeacherSubjectsUpdateComponent } from './teacher-subjects-update/teacher-subjects-update.component';
 import { TeacherUpdateGradeComponent } from './teacher-update-grade/teacher-update-grade.component';
 import { StudentGradesComponent } from './student-grades/student-grades.component';
+import { StudentHomeComponent } from './student-home/student-home.component';
+import { TeacherHomeComponent } from './teacher-home/teacher-home.component';
+import { AdminHomeComponent } from './admin-home/admin-home.component';
+import { StudentUpdateComponent } from './student-update/student-update.component';
+import { TeacherUpdateComponent } from './teacher-update/teacher-update.component';
+import { SubjectUpdateComponent } from './subject-update/subject-update.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +63,13 @@ import { StudentGradesComponent } from './student-grades/student-grades.componen
     StudentPageComponent,
     TeacherSubjectsUpdateComponent,
     TeacherUpdateGradeComponent,
-    StudentGradesComponent
+    StudentGradesComponent,
+    StudentHomeComponent,
+    TeacherHomeComponent,
+    AdminHomeComponent,
+    StudentUpdateComponent,
+    TeacherUpdateComponent,
+    SubjectUpdateComponent
   ],
   imports: [
     BrowserModule,

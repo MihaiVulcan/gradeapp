@@ -1,0 +1,50 @@
+<h1>Modificare Student</h1>
+
+<form [formGroup]="studentsForm" normal-form (ngSubmit)="onSubmit()">
+
+    <mat-form-field appearance="fill">
+        <mat-label>Username</mat-label>
+        <input formControlName="id" readonly  matInput>
+    </mat-form-field>
+    <br>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input formControlName="email" readonly type="email" matInput>
+    </mat-form-field>
+    <br>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Nume</mat-label>
+        <input formControlName="lastName" required matInput>
+    </mat-form-field>
+    <br>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Prenume</mat-label>
+        <input formControlName="firstName" required matInput>
+    </mat-form-field>
+    <br>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Cod Academic</mat-label>
+        <input formControlName="codeAcademic" required matInput>
+    </mat-form-field>
+    <br>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Grupa</mat-label>
+        <input formControlName="group" type="number" min="1" required matInput>
+    </mat-form-field>
+    <br>
+
+    <mat-form-field appearance="fill">
+        <mat-label>An</mat-label>
+        <input formControlName="year" type="number" min="1" required matInput>
+    </mat-form-field>
+    <br>
+
+    <button mat-raised-button>
+        <mat-icon>save</mat-icon>
+    </button>
+</form>

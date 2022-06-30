@@ -3,10 +3,21 @@ mat-table{
     border: 30px 10px 30px 10px;
 }
 .mat-table {
-    overflow: auto;
-    max-height: 500px;
-  }
-  
+  overflow: auto;
+  max-height: 500px;
+  width: 100%;
+  justify-content: center;
+}
+
+mat-form-field{
+  padding-left: 30px;
+}
+
+tr.mat-row:hover {
+  border: 1px solid blue;
+  border-radius: 10px;
+}
+
 
 button{
     border: 30px 10px 30px 10px;

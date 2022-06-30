@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { CognitoUserSession } from 'amazon-cognito-identity-js';
 import { AuthService } from '../auth/auth.service';
 import { StudentFormComponent } from '../student-form/student-form.component';
+import { StudentUpdateComponent } from '../student-update/student-update.component';
 
 export class Student {
   constructor(
@@ -38,16 +39,23 @@ export class StudentsPageComponent implements OnInit {
     private auth: AuthService
   ) { }
 
+  filter = ''
+
   @ViewChild(MatPaginator)paginator!: MatPaginator;
 
   ngOnInit(): void {
       this.getStudents()
-      
-      
   }
 
   ngAfterViewInit(){
     this.dataSource.paginator=this.paginator
+  }
+
+  applyFilter(filterValue: string) {
+    if(filterValue!=""){
+      filterValue = filterValue.trim(); // Remove whitespace
+      this.dataSource.filter = filterValue;
+    }
   }
 
   getStudents(){
@@ -62,6 +70,7 @@ export class StudentsPageComponent implements OnInit {
         {
           headers: new HttpHeaders({
             'Authorization': session.getIdToken().getJwtToken(),
+            'AccessToken': session.getAccessToken().getJwtToken()
           })
         }
         
@@ -91,6 +100,7 @@ export class StudentsPageComponent implements OnInit {
         {
           headers: new HttpHeaders({
             'Authorization': session.getIdToken().getJwtToken(),
+            'AccessToken': session.getAccessToken().getJwtToken()
           })
         }
         ).subscribe(
@@ -111,8 +121,18 @@ export class StudentsPageComponent implements OnInit {
     });
   }
 
-  editStudent(id: string){
+  editStudent(student: Student){
+    const dialogRef = this.dialog.open(StudentUpdateComponent,{
+      data:{
+        "student":student
+      }
+    }
+    );
 
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      this.getStudents();
+    });
   }
 
 }

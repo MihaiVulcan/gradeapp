@@ -1,6 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Form, FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { CognitoUserSession } from 'amazon-cognito-identity-js';
+import { AuthService } from '../auth/auth.service';
 import { Student } from '../students-page/students-page.component';
 
 @Component({
@@ -16,7 +18,9 @@ export class StudentFormComponent implements OnInit {
 
   constructor(
     private httpClient: HttpClient,
-    private fb: FormBuilder) { }
+    private fb: FormBuilder,
+    private auth: AuthService
+    ) { }
 
   ngOnInit(): void {
     this.studentsForm = this.fb.group({
@@ -41,9 +45,25 @@ export class StudentFormComponent implements OnInit {
       this.studentsForm.controls['codeAcademic'].value,
       this.studentsForm.controls['email'].value
       )
-    this.httpClient.post('https://tuhd7q6w3a.execute-api.eu-central-1.amazonaws.com/dev/student/', student).subscribe(data => {
-        console.log(data)
-    })
-  }
 
+    var user = this.auth.getUser()
+    if(user != null){
+      user.getSession((err: any, session: CognitoUserSession) => {
+        if(err)
+            return;
+        console.log(session)  
+        this.httpClient.post('https://tuhd7q6w3a.execute-api.eu-central-1.amazonaws.com/dev/student/',
+        student,
+        {
+          headers: new HttpHeaders({
+            'Authorization': session.getIdToken().getJwtToken(),
+            'AccessToken': session.getAccessToken().getJwtToken()
+          })
+        }
+        ).subscribe(data => {
+            console.log(data)
+        })
+      })
+    }
+  }
 }

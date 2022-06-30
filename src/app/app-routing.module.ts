@@ -10,6 +10,9 @@ import { TeacherPageSubjectsComponent } from './teacher-page-subjects/teacher-pa
 import { StudentPageComponent } from './student-page/student-page.component';
 import { StudentGradesComponent } from './student-grades/student-grades.component';
 import { AuthGuardGuard } from './auth/auth-guard.guard';
+import { StudentHomeComponent } from './student-home/student-home.component';
+import { TeacherHomeComponent } from './teacher-home/teacher-home.component';
+import { AdminHomeComponent } from './admin-home/admin-home.component';
 
 const routes: Routes = [
   {path: '', redirectTo : '/login', pathMatch: 'full'},
@@ -24,7 +27,8 @@ const routes: Routes = [
     children: [
       {path : 'students-page', component: StudentsPageComponent},
       {path : 'teachers-page', component: TeachersPageComponent},
-      {path : 'subjects-page', component: SubjectsPageComponent}
+      {path : 'subjects-page', component: SubjectsPageComponent},
+      {path : 'home', component:AdminHomeComponent  }
     ]
   },
   {
@@ -35,7 +39,8 @@ const routes: Routes = [
       group:'teacher'
     }, 
     children: [
-      {path: 'subjects', component: TeacherPageSubjectsComponent}
+      {path: 'subjects', component: TeacherPageSubjectsComponent},
+      {path: 'home', component: TeacherHomeComponent}
   ]},
   {
     path: 'student-page', 
@@ -45,7 +50,8 @@ const routes: Routes = [
       group:'student'
     },
     children: [
-      {path: 'grades', component: StudentGradesComponent}
+      {path: 'grades', component: StudentGradesComponent},
+      {path: 'home', component: StudentHomeComponent}
   ]}
 ];
 

@@ -6,12 +6,14 @@ import { MatTableDataSource } from '@angular/material/table';
 import { CognitoUserSession } from 'amazon-cognito-identity-js';
 import { AuthService } from '../auth/auth.service';
 import { TeacherFormComponent } from '../teacher-form/teacher-form.component';
+import { TeacherUpdateComponent } from '../teacher-update/teacher-update.component';
 
 export class Teacher {
   constructor(
     public id: string,
     public firstName: string,
-    public lastName: string
+    public lastName: string,
+    public email: string
   ){
   }
 }
@@ -27,7 +29,7 @@ export class TeachersPageComponent implements OnInit {
 
   teachers: Teacher[] = [];
   dataSource = new MatTableDataSource<Teacher>(this.teachers);
-  displayedColumns: String[] = ['id', 'lastName', 'firstName', 'actions']
+  displayedColumns: String[] = ['id', 'lastName', 'firstName', 'email', 'actions']
   constructor(
     private httpClient: HttpClient,
     private dialog: MatDialog,
@@ -36,12 +38,21 @@ export class TeachersPageComponent implements OnInit {
 
   @ViewChild(MatPaginator)paginator!: MatPaginator;
 
+  filter= ''
+
   ngOnInit(): void {
       this.getTeachers()
   }
 
   ngAfterViewInit(){
     this.dataSource.paginator=this.paginator
+  }
+
+  applyFilter(filterValue: string) {
+    if(filterValue!=""){
+      filterValue = filterValue.trim(); // Remove whitespace
+      this.dataSource.filter = filterValue;
+    }
   }
 
   getTeachers(){
@@ -56,6 +67,7 @@ export class TeachersPageComponent implements OnInit {
       {
         headers: new HttpHeaders({
           'Authorization': session.getIdToken().getJwtToken(),
+          'AccessToken': session.getAccessToken().getJwtToken()
         })
       }
       ).subscribe(
@@ -85,6 +97,7 @@ export class TeachersPageComponent implements OnInit {
       {
         headers: new HttpHeaders({
           'Authorization': session.getIdToken().getJwtToken(),
+          'AccessToken': session.getAccessToken().getJwtToken()
         })
       }
       ).subscribe(
@@ -98,6 +111,19 @@ export class TeachersPageComponent implements OnInit {
 
   onNewTeacher(){
     const dialogRef = this.dialog.open(TeacherFormComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      this.getTeachers();
+    });
+  }
+
+  editTeacher(teacher: Teacher){
+    const dialogRef = this.dialog.open(TeacherUpdateComponent,{
+      "data":{
+        "teacher":teacher
+      }
+    });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');

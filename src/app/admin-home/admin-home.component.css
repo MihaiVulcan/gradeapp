@@ -1,0 +1,9 @@
+.inline{
+    display: inline-block;
+}
+
+.cardDesign{
+    padding: 20px;
+    width: 20rem;
+    margin:20px;
+}

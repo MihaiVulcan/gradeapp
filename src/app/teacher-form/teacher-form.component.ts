@@ -26,7 +26,8 @@ export class TeacherFormComponent implements OnInit {
     this.teachersForm = this.fb.group({
       id:'',
       lastName:'',
-      firstName:''
+      firstName:'',
+      email:''
     });
   }
 
@@ -40,12 +41,13 @@ export class TeacherFormComponent implements OnInit {
         console.log(session)
 
       console.log(this.teachersForm)
-      var teacher: Teacher = new Teacher(this.teachersForm.controls['id'].value, this.teachersForm.controls['firstName'].value, this.teachersForm.controls['lastName'].value)
+      var teacher: Teacher = new Teacher(this.teachersForm.controls['id'].value, this.teachersForm.controls['firstName'].value, this.teachersForm.controls['lastName'].value, this.teachersForm.controls['email'].value)
       this.httpClient.post('https://tuhd7q6w3a.execute-api.eu-central-1.amazonaws.com/dev/teacher/',
       teacher,
       {
         headers: new HttpHeaders({
           'Authorization': session.getIdToken().getJwtToken(),
+          'AccessToken': session.getAccessToken().getJwtToken()
         })
       }
       ).subscribe(data => {

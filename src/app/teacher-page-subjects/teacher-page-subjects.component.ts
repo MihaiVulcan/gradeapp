@@ -7,6 +7,7 @@ import { TeacherSubjectsUpdateComponent } from '../teacher-subjects-update/teach
 import { TeacherUpdateGradeComponent } from '../teacher-update-grade/teacher-update-grade.component';
 import { AuthService } from '../auth/auth.service';
 import { CognitoUserSession } from 'amazon-cognito-identity-js';
+import { MatTableDataSource } from '@angular/material/table';
 
 
 export class SubjectGrade{
@@ -69,8 +70,19 @@ export class TeacherPageSubjectsComponent implements OnInit {
 
   displayedColumns: string[] = ["actions", "id", "firstName", "lastName", "group"]
 
+  datasource = new MatTableDataSource(this.studentGrades); 
+
+  filter = "";
+
   ngOnInit(): void {
     this.loadSubjects()
+  }
+
+  applyFilter(filterValue: string) {
+    if(filterValue!=""){
+      filterValue = filterValue.trim(); // Remove whitespace
+      this.datasource.filter = filterValue;
+    }
   }
 
   loadSubjects(){
@@ -80,16 +92,17 @@ export class TeacherPageSubjectsComponent implements OnInit {
         if(err)
           return;
         console.log(session)
-      this.httpClient.get<any>( 'https://tuhd7q6w3a.execute-api.eu-central-1.amazonaws.com/dev/teacher-subjects/?id='+this.auth.getUsername(),{
-        headers: new HttpHeaders({
-          'Authorization': session.getIdToken().getJwtToken(),
-        })
-      }).subscribe(
-        response => {
-          console.log(response)
-          this.subjects = response["body"]
-          console.log(this.subjects)
-        })
+        this.httpClient.get<any>( 'https://tuhd7q6w3a.execute-api.eu-central-1.amazonaws.com/dev/teacher-subjects/?id='+this.auth.getUsername(),{
+          headers: new HttpHeaders({
+            'Authorization': session.getIdToken().getJwtToken(),
+            'AccessToken': session.getAccessToken().getJwtToken()
+          })
+        }).subscribe(
+          response => {
+            console.log(response)
+            this.subjects = response["body"]
+            console.log(this.subjects)
+          })
       })
     }
   }
@@ -121,12 +134,14 @@ export class TeacherPageSubjectsComponent implements OnInit {
         this.httpClient.get<any>( 'https://tuhd7q6w3a.execute-api.eu-central-1.amazonaws.com/dev/teacher-grades/?id='+this.selectedSubject.subjectId,{
           headers: new HttpHeaders({
             'Authorization': session.getIdToken().getJwtToken(),
+            'AccessToken': session.getAccessToken().getJwtToken()
           })
         }).subscribe(
           response => {
             console.log(response)
             this.show=true
             this.studentGrades = response["body"]
+            this.datasource.data = this.studentGrades;
             console.log(this.studentGrades)
           })
       })

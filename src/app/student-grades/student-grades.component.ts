@@ -68,7 +68,7 @@ export class StudentGradesComponent implements OnInit {
         this.httpClient.get<any>("https://tuhd7q6w3a.execute-api.eu-central-1.amazonaws.com/dev/student-grades/?id="+this.auth.getUsername() ,{
           headers: new HttpHeaders({
             'Authorization': session.getIdToken().getJwtToken(),
-          
+            'AccessToken': session.getAccessToken().getJwtToken()
           })
           }).subscribe(response=>{
               console.log(response)
