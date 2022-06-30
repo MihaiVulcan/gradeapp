@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CognitoUserSession } from 'amazon-cognito-identity-js';
 import { AuthService } from '../auth/auth.service';
+import { Result } from '../login-page/login-page.component';
 import { Student } from '../students-page/students-page.component';
 
 @Component({
@@ -35,6 +36,8 @@ export class StudentUpdateComponent implements OnInit {
   }
 
   onSubmit(): void{
+    if(!this.studentsForm.valid)
+      return;
     console.log(this.studentsForm)
     var student: Student = new Student(
       this.studentsForm.controls['id'].value, 

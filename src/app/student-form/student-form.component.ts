@@ -1,8 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { asLiteral } from '@angular/compiler/src/render3/view/util';
 import { Component, OnInit } from '@angular/core';
 import { Form, FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { CognitoUserSession } from 'amazon-cognito-identity-js';
 import { AuthService } from '../auth/auth.service';
+import { Result } from '../login-page/login-page.component';
 import { Student } from '../students-page/students-page.component';
 
 @Component({
@@ -35,6 +37,11 @@ export class StudentFormComponent implements OnInit {
   }
 
   onSubmit(): void{
+
+    if(!this.studentsForm.valid){
+      return;
+    }
+
     console.log(this.studentsForm)
     var student: Student = new Student(
       this.studentsForm.controls['id'].value, 

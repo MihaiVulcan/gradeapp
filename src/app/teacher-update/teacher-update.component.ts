@@ -33,6 +33,10 @@ export class TeacherUpdateComponent implements OnInit {
 
   onSubmit(): void{
 
+    if(!this.teachersForm.valid){
+      return;
+    }
+
     var user = this.auth.getUser()
     if(user != null){
       user.getSession((err: any, session: CognitoUserSession) => {

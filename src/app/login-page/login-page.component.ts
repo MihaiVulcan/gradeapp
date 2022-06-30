@@ -9,6 +9,12 @@ import { AuthService } from '../auth/auth.service';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from "@angular/material/form-field";
 
+export class Result{
+  constructor(
+  public statusCode:string,
+  public error: string
+  ){}
+}
 
 @Component({
   selector: 'app-login-page',

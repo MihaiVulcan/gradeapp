@@ -32,6 +32,10 @@ export class SubjectUpdateComponent implements OnInit {
   }
 
   onSubmit(): void{
+
+    if(!this.subjectForm.valid)
+      return;
+
     var user = this.auth.getUser()
     if(user != null){
       user.getSession((err: any, session: CognitoUserSession) => {

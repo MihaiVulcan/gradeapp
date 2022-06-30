@@ -5,6 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { CognitoUserSession } from 'amazon-cognito-identity-js';
 import { AuthService } from '../auth/auth.service';
+import { Result } from '../login-page/login-page.component';
 import { StudentFormComponent } from '../student-form/student-form.component';
 import { StudentUpdateComponent } from '../student-update/student-update.component';
 
