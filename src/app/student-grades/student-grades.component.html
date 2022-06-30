@@ -27,7 +27,7 @@
                 <th mat-header-cell *matHeaderCellDef> Nota </th>
                 <td mat-cell *matCellDef="let element"> 
                     <span *ngIf="element.grade>0">{{element.grade}} </span>
-                    <input class="notGraded" matInput numeric *ngIf="element.grade==0" [(ngModel)]="element.mockGrade" (ngModelChange)="calculateFinalGrade()">
+                    <input class="notGraded" matInput type="number" *ngIf="element.grade==0" [(ngModel)]="element.mockGrade" (ngModelChange)="calculateFinalGrade()">
                 
                 </td>
             </ng-container>

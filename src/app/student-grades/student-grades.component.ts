@@ -49,7 +49,7 @@ export class StudentGradesComponent implements OnInit {
 
   displayedColumns: string[] = ["name", "procent", "grade", "feedback"]
 
-  finalGrade = 0
+  finalGrade = "0"
 
   selectedGrade = new SubjectGrade(-1,"",0,0,"")
 
@@ -91,7 +91,7 @@ export class StudentGradesComponent implements OnInit {
         gr+= grade.procent/100*grade.mockGrade
     }
 
-    this.finalGrade = gr
+    this.finalGrade =  parseFloat(gr+"").toFixed(2)
   }
 
   openGrades(subjectStudent: SubjectStudent){
