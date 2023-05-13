@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -25,7 +25,7 @@ export class Subject {
   templateUrl: './subjects-page.component.html',
   styleUrls: ['./subjects-page.component.css']
 })
-export class SubjectsPageComponent implements OnInit {
+export class SubjectsPageComponent implements OnInit, AfterViewInit {
 
   subjects: Subject[] = [];
   dataSource = new MatTableDataSource<Subject>(this.subjects);

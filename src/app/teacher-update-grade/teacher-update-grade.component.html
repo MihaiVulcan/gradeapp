@@ -5,8 +5,8 @@
             <div class="divGrade">
                 <label >{{grade.name}}</label>
                 <input matInput type="number" [(ngModel)]="grade.grade">
-                <button mat-raised-button *ngIf="grade.feedback == '' && grade.showFeedback == false" (click)="grade.showFeedback = true">Add feedback</button>
-                <button mat-raised-button *ngIf="grade.feedback != '' && grade.showFeedback == false" (click)="grade.showFeedback = true">View feedback</button>
+                <button mat-raised-button *ngIf="grade.feedback === '' && grade.showFeedback === false" (click)="grade.showFeedback = true">Add feedback</button>
+                <button mat-raised-button *ngIf="grade.feedback !== '' && grade.showFeedback === false" (click)="grade.showFeedback = true">View feedback</button>
                 <button mat-raised-button *ngIf="grade.showFeedback" (click)="grade.showFeedback = false">Close feedback</button>
             </div>
             <div class="divFeedback" *ngIf="grade.showFeedback">

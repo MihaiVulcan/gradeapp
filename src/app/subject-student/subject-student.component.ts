@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -26,7 +26,7 @@ export class SubjectStudent {
 })
 
 
-export class SubjectStudentComponent implements OnInit {
+export class SubjectStudentComponent implements OnInit, AfterViewInit{
 
   students: SubjectStudent[] = [];
   allStudents: SubjectStudent[] = [];

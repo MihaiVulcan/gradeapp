@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -25,7 +25,7 @@ export class SubjectTeacher {
   styleUrls: ['./subject-teacher.component.css']
 })
 
-export class SubjectTeacherComponent implements OnInit {
+export class SubjectTeacherComponent implements OnInit, AfterViewInit {
 
   teachers: SubjectTeacher[] = [];
   allTeachers: SubjectTeacher[] = [];

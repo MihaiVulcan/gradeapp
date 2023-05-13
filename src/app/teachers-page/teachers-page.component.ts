@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -25,7 +25,8 @@ export class Teacher {
 })
 
 
-export class TeachersPageComponent implements OnInit {
+export class TeachersPageComponent implements OnInit, AfterViewInit{
+
 
   teachers: Teacher[] = [];
   dataSource = new MatTableDataSource<Teacher>(this.teachers);
@@ -132,3 +133,4 @@ export class TeachersPageComponent implements OnInit {
   }
 
 }
+

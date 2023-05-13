@@ -4,7 +4,7 @@
         <mat-list>
             <div mat-subheader>Materii</div>
             <mat-list-item *ngFor="let subject of subjects">
-                <mat-label (click)="openGrades(subject)" [ngClass]="{selected: selectedSubject.subjectId==subject.subjectId}" >{{subject.subjectId}}  {{subject.name}}</mat-label>
+                <mat-label (click)="openGrades(subject)" [ngClass]="{selected: selectedSubject.subjectId===subject.subjectId}" >{{subject.subjectId}}  {{subject.name}}</mat-label>
                 <button mat-flat-button (click)="update(subject)"><mat-icon>edit</mat-icon></button> 
             </mat-list-item>
         </mat-list>

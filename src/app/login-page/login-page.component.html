@@ -1,4 +1,4 @@
-<div>
+    <div>
     <h1>Welcome to Gradi</h1>
     <mat-card>
         <form [formGroup]="loginForm" (ngSubmit)="onSignIn()" class="example-form">
@@ -14,7 +14,7 @@
         </form>
     </mat-card>
     <mat-card>
-        <form *ngIf="newPasswordRequired==true" [formGroup]="newPasswordForm" (ngSubmit)="setNewPassword()" class="example-form">
+        <form *ngIf="newPasswordRequired===true" [formGroup]="newPasswordForm" (ngSubmit)="setNewPassword()" class="example-form">
             <mat-form-field class="example-full-width" appearance="fill">
                 <mat-label for="email"><b>Parola Nouă</b></mat-label>
                 <input matInput name="email" [(ngModel)]="newPassword" newPassword="ngModel" type="password" placeholder="Enter New Password" formControlName="newPassword" required  >
