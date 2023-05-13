@@ -3,10 +3,7 @@ version: 0.1
 phases:
   install:
    runtime-versions:
-      nodejs: 16.x
-    commands:
-      #- curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-      #- sudo apt-get install -y nodejs
+      nodejs: latest
   pre_build:
     commands:
       - echo installing dependencies...
